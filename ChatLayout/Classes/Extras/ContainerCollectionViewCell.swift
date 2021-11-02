@@ -76,10 +76,13 @@ public final class ContainerCollectionViewCell<CustomView: UIView>: UICollection
 
     private func setupSubviews() {
         contentView.addSubview(customView)
-        insetsLayoutMarginsFromSafeArea = false
+        if #available(iOS 11.0, *) {
+            insetsLayoutMarginsFromSafeArea = false
+            contentView.insetsLayoutMarginsFromSafeArea = false
+        } else {
+            // Fallback on earlier versions
+        }
         layoutMargins = .zero
-
-        contentView.insetsLayoutMarginsFromSafeArea = false
         contentView.layoutMargins = .zero
 
         customView.translatesAutoresizingMaskIntoConstraints = false

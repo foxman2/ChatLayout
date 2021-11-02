@@ -37,7 +37,11 @@ public final class RoundedCornersContainerView<CustomView: UIView>: UIView {
     private func setupSubviews() {
         addSubview(customView)
         translatesAutoresizingMaskIntoConstraints = false
-        insetsLayoutMarginsFromSafeArea = false
+        if #available(iOS 11.0, *) {
+            insetsLayoutMarginsFromSafeArea = false
+        } else {
+            // Fallback on earlier versions
+        }
         layoutMargins = .zero
 
         customView.translatesAutoresizingMaskIntoConstraints = false

@@ -77,7 +77,11 @@ public final class ContainerCollectionReusableView<CustomView: UIView>: UICollec
 
     private func setupSubviews() {
         addSubview(customView)
-        insetsLayoutMarginsFromSafeArea = false
+        if #available(iOS 11.0, *) {
+            insetsLayoutMarginsFromSafeArea = false
+        } else {
+            // Fallback on earlier versions
+        }
         layoutMargins = .zero
 
         customView.translatesAutoresizingMaskIntoConstraints = false

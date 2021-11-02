@@ -86,7 +86,11 @@ public final class EdgeAligningView<CustomView: UIView>: UIView {
 
     private func setupSubviews() {
         translatesAutoresizingMaskIntoConstraints = false
-        insetsLayoutMarginsFromSafeArea = false
+        if #available(iOS 11.0, *) {
+            insetsLayoutMarginsFromSafeArea = false
+        } else {
+            // Fallback on earlier versions
+        }
         layoutMargins = .zero
         setupContainer()
     }

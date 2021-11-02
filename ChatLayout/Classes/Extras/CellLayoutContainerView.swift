@@ -73,23 +73,40 @@ public final class CellLayoutContainerView<LeadingAccessory: StaticViewFactory, 
             guard let leadingView = leadingView else {
                 return 0
             }
-            return stackView.customSpacing(after: leadingView)
+            if #available(iOS 11.0, *) {
+                return stackView.customSpacing(after: leadingView)
+            } else {
+                return 0
+            }
         }
         set {
             guard let leadingView = leadingView else {
                 return
             }
-            return stackView.setCustomSpacing(newValue, after: leadingView)
+            if #available(iOS 11.0, *) {
+                return stackView.setCustomSpacing(newValue, after: leadingView)
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
 
     /// Custom spacing between the main and trailing views.
     public var customTrailingSpacing: CGFloat {
         get {
-            return stackView.customSpacing(after: customView)
+            if #available(iOS 11.0, *) {
+                return stackView.customSpacing(after: customView)
+            } else {
+                // Fallback on earlier versions
+                return 0
+            }
         }
         set {
-            return stackView.setCustomSpacing(newValue, after: customView)
+            if #available(iOS 11.0, *) {
+                return stackView.setCustomSpacing(newValue, after: customView)
+            } else {
+                // Fallback on earlier versions
+            }
         }
     }
 
@@ -112,7 +129,11 @@ public final class CellLayoutContainerView<LeadingAccessory: StaticViewFactory, 
 
     private func setupSubviews() {
         translatesAutoresizingMaskIntoConstraints = false
-        insetsLayoutMarginsFromSafeArea = false
+        if #available(iOS 11.0, *) {
+            insetsLayoutMarginsFromSafeArea = false
+        } else {
+            // Fallback on earlier versions
+        }
         layoutMargins = .zero
 
         stackView.axis = .horizontal

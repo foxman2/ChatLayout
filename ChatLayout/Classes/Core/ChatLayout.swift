@@ -123,7 +123,11 @@ public final class ChatLayout: UICollectionViewLayout {
         guard let collectionView = collectionView else {
             return .zero
         }
-        return collectionView.adjustedContentInset
+        if #available(iOS 11.0, *) {
+            return collectionView.adjustedContentInset
+        } else {
+            return .zero
+        }
     }
 
     var viewSize: CGSize {
@@ -597,13 +601,20 @@ public final class ChatLayout: UICollectionViewLayout {
             if let frame = controller.itemFrame(for: currentPositionSnapshot.indexPath.itemPath, kind: currentPositionSnapshot.kind, at: state, isFinal: true),
                contentHeight != 0,
                contentHeight > visibleBounds.size.height {
+                
+                let collectionInset: UIEdgeInsets
+                if #available(iOS 11.0, *) {
+                    collectionInset = collectionView.adjustedContentInset
+                } else {
+                    collectionInset = collectionView.contentInset
+                }
                 switch currentPositionSnapshot.edge {
                 case .top:
-                    let desiredOffset = frame.minY - currentPositionSnapshot.offset - collectionView.adjustedContentInset.top - settings.additionalInsets.top
+                    let desiredOffset = frame.minY - currentPositionSnapshot.offset - collectionInset.top - settings.additionalInsets.top
                     context.contentOffsetAdjustment.y = desiredOffset - collectionView.contentOffset.y
                 case .bottom:
-                    let maxAllowed = max(-collectionView.adjustedContentInset.top, contentHeight - collectionView.frame.height + collectionView.adjustedContentInset.bottom)
-                    let desiredOffset = max(min(maxAllowed, frame.maxY + currentPositionSnapshot.offset - collectionView.bounds.height + collectionView.adjustedContentInset.bottom + settings.additionalInsets.bottom), -collectionView.adjustedContentInset.top)
+                    let maxAllowed = max(-collectionInset.top, contentHeight - collectionView.frame.height + collectionInset.bottom)
+                    let desiredOffset = max(min(maxAllowed, frame.maxY + currentPositionSnapshot.offset - collectionView.bounds.height + collectionInset.bottom + settings.additionalInsets.bottom), -collectionInset.top)
                     context.contentOffsetAdjustment.y = desiredOffset - collectionView.contentOffset.y
                 }
             }
@@ -620,7 +631,15 @@ public final class ChatLayout: UICollectionViewLayout {
     public override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint) -> CGPoint {
         if controller.proposedCompensatingOffset != 0,
            let collectionView = collectionView {
-            let minPossibleContentOffset = -collectionView.adjustedContentInset.top
+            
+            let collectionInset: UIEdgeInsets
+            if #available(iOS 11.0, *) {
+                collectionInset = collectionView.adjustedContentInset
+            } else {
+                collectionInset = collectionView.contentInset
+            }
+            
+            let minPossibleContentOffset = -collectionInset.top
             let newProposedContentOffset = CGPoint(x: proposedContentOffset.x, y: max(minPossibleContentOffset, min(proposedContentOffset.y + controller.proposedCompensatingOffset, maxPossibleContentOffset.y)))
             invalidationActions.formUnion([.shouldInvalidateOnBoundsChange])
             if needsIOS15_1IssueFix {
@@ -948,7 +967,15 @@ extension ChatLayout {
         guard let collectionView = collectionView else {
             return .zero
         }
-        let maxContentOffset = max(0 - collectionView.adjustedContentInset.top, controller.contentHeight(at: state) - collectionView.frame.height + collectionView.adjustedContentInset.bottom)
+        
+        let collectionInset: UIEdgeInsets
+        if #available(iOS 11.0, *) {
+            collectionInset = collectionView.adjustedContentInset
+        } else {
+            collectionInset = collectionView.contentInset
+        }
+        
+        let maxContentOffset = max(0 - collectionInset.top, controller.contentHeight(at: state) - collectionView.frame.height + collectionInset.bottom)
         return CGPoint(x: 0, y: maxContentOffset)
     }
 

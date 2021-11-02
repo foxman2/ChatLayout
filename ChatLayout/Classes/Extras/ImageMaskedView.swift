@@ -64,7 +64,11 @@ public final class ImageMaskedView<CustomView: UIView>: UIView {
     private func setupSubviews() {
         layoutMargins = .zero
         translatesAutoresizingMaskIntoConstraints = false
-        insetsLayoutMarginsFromSafeArea = false
+        if #available(iOS 11.0, *) {
+            insetsLayoutMarginsFromSafeArea = false
+        } else {
+            // Fallback on earlier versions
+        }
 
         addSubview(customView)
         customView.translatesAutoresizingMaskIntoConstraints = false
