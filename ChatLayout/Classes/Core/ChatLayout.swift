@@ -494,7 +494,9 @@ public final class ChatLayout: UICollectionViewLayout {
         let context = super.invalidationContext(forPreferredLayoutAttributes: preferredMessageAttributes, withOriginalAttributes: originalAttributes) as! ChatLayoutInvalidationContext
 
         let heightDifference = newItemSize.height - originalAttributes.size.height
-        let isAboveBottomEdge = originalAttributes.frame.minY.rounded() <= visibleBounds.maxY.rounded()
+        context.contentSizeAdjustment.height = heightDifference
+        
+        let isAboveBottomEdge = preferredAttributes.frame.maxY.rounded() <= visibleBounds.maxY.rounded()
 
         if heightDifference != 0,
            (keepContentOffsetAtBottomOnBatchUpdates && controller.contentHeight(at: state).rounded() + heightDifference > visibleBounds.height.rounded())
