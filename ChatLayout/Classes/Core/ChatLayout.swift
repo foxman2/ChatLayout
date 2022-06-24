@@ -687,6 +687,9 @@ public final class ChatLayout: UICollectionViewLayout {
         } else {
             controller.batchUpdateCompensatingOffset = 0
             let context = ChatLayoutInvalidationContext()
+            if let collectionView = collectionView {
+                context.contentOffsetAdjustment.y = -adjustedContentInset.top - collectionView.contentOffset.y
+            }
             invalidateLayout(with: context)
         }
 

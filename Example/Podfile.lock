@@ -35,7 +35,7 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  ChatLayout: 7a1bb0300a65833605c0902b68e179817fecd9c6
+  ChatLayout: c0d0ab59bf18b9f64141b6ee76e2b0d1c8f97342
   DifferenceKit: 5659c430bb7fe45876fa32ce5cba5d6167f0c805
   FPSCounter: 884afec377de66637808c4f52ecc3b85a404732b
   InputBarAccessoryView: 74d471ab1fa1736806be50328df79257e52865a9
