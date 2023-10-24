@@ -45,10 +45,10 @@ public final class RoundedCornersContainerView<CustomView: UIView>: UIView {
         layoutMargins = .zero
 
         customView.translatesAutoresizingMaskIntoConstraints = false
-        customView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
-        customView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
         customView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor).isActive = true
         customView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor).isActive = true
+        customView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor).isActive = true
+        customView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor).isActive = true
     }
 
     /// Lays out subviews.
